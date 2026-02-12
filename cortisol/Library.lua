@@ -1548,10 +1548,11 @@ end
 
 function Library:AddDraggableMenu(Name: string)
     local Holder = New("Frame", {
-        AutomaticSize = Enum.AutomaticSize.XY,
+        AutomaticSize = Enum.AutomaticSize.Y,
         BackgroundColor3 = "BackgroundColor",
+        BackgroundTransparency = 1,
         Position = UDim2.fromOffset(6, 6),
-        Size = UDim2.fromOffset(0, 0),
+        Size = UDim2.fromOffset(235, 0),
         ZIndex = 10,
         Parent = ScreenGui,
     })
@@ -1565,35 +1566,67 @@ function Library:AddDraggableMenu(Name: string)
             Parent = Holder,
         })
     )
-    Library:AddOutline(Holder)
 
-    Library:MakeLine(Holder, {
-        Position = UDim2.fromOffset(0, 34),
-        Size = UDim2.new(1, 0, 0, 1),
+    local Header = New("Frame", {
+        BackgroundColor3 = "DarkColor",
+        Size = UDim2.new(1, 0, 0, 28),
+        Parent = Holder,
     })
+    New("UICorner", {
+        CornerRadius = UDim.new(0, Library.CornerRadius),
+        Parent = Header,
+    })
+    New("UIPadding", {
+        PaddingLeft = UDim.new(0, 10),
+        PaddingRight = UDim.new(0, 10),
+        Parent = Header,
+    })
+    New("UIListLayout", {
+        FillDirection = Enum.FillDirection.Horizontal,
+        HorizontalAlignment = Enum.HorizontalAlignment.Left,
+        VerticalAlignment = Enum.VerticalAlignment.Center,
+        Padding = UDim.new(0, 6),
+        Parent = Header,
+    })
+
+    local HeaderIcon
+    local KeyIconData = KeyIcon or Library:GetIcon("key")
+    if KeyIconData then
+        HeaderIcon = New("ImageLabel", {
+            BackgroundTransparency = 1,
+            Image = KeyIconData.Url,
+            ImageColor3 = "AccentColor",
+            ImageRectOffset = KeyIconData.ImageRectOffset,
+            ImageRectSize = KeyIconData.ImageRectSize,
+            Size = UDim2.fromOffset(14, 14),
+            SizeConstraint = Enum.SizeConstraint.RelativeYY,
+            Parent = Header,
+        })
+    end
 
     local Label = New("TextLabel", {
         BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 0, 34),
+        Size = UDim2.new(1, 0, 1, 0),
         Text = Name,
-        TextSize = 15,
+        TextSize = 14,
         TextXAlignment = Enum.TextXAlignment.Left,
-        Parent = Holder,
+        Parent = Header,
     })
-    New("UIPadding", {
-        PaddingLeft = UDim.new(0, 12),
-        PaddingRight = UDim.new(0, 12),
-        Parent = Label,
+
+    Library:MakeLine(Holder, {
+        Position = UDim2.fromOffset(0, 28),
+        Size = UDim2.new(1, 0, 0, 1),
     })
 
     local Container = New("Frame", {
-        BackgroundTransparency = 1,
-        Position = UDim2.fromOffset(0, 35),
-        Size = UDim2.new(1, 0, 1, -35),
+        BackgroundColor3 = "MainColor",
+        BackgroundTransparency = 0.45,
+        Position = UDim2.fromOffset(0, 29),
+        Size = UDim2.new(1, 0, 1, -29),
         Parent = Holder,
     })
-    New("UIListLayout", {
-        Padding = UDim.new(0, 7),
+    New("UICorner", {
+        CornerRadius = UDim.new(0, Library.CornerRadius),
         Parent = Container,
     })
     New("UIPadding", {
@@ -1603,8 +1636,12 @@ function Library:AddDraggableMenu(Name: string)
         PaddingTop = UDim.new(0, 7),
         Parent = Container,
     })
+    New("UIListLayout", {
+        Padding = UDim.new(0, 6),
+        Parent = Container,
+    })
 
-    Library:MakeDraggable(Holder, Label, true)
+    Library:MakeDraggable(Holder, Header, true)
     return Holder, Container
 end
 
@@ -2121,61 +2158,59 @@ do
             Parent = ToggleLabel,
         })
 
-        local KeybindsToggle = { Normal = KeyPicker.Mode ~= "Toggle" }
+        local KeybindsToggle = { Normal = true }
         do
-            local Holder = New("TextButton", {
+            local Holder = New("Frame", {
+                BackgroundColor3 = "MainColor",
                 BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, 16),
-                Text = "",
+                Size = UDim2.new(1, 0, 0, 18),
                 Visible = not Info.NoUI,
                 Parent = Library.KeybindContainer,
             })
 
-            local Label = New("TextLabel", {
-                AutomaticSize = Enum.AutomaticSize.X,
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(0, 1),
-                Text = "",
-                TextSize = 14,
-                TextTransparency = 0.5,
-                Parent = Holder,
-            })
-
-            local Checkbox = New("Frame", {
-                AnchorPoint = Vector2.new(0, 0.5),
-                BackgroundColor3 = "MainColor",
-                Position = UDim2.fromScale(0, 0.5),
-                Size = UDim2.fromOffset(14, 14),
-                SizeConstraint = Enum.SizeConstraint.RelativeYY,
-                Parent = Holder,
-            })
             New("UICorner", {
                 CornerRadius = UDim.new(0, Library.CornerRadius / 2),
-                Parent = Checkbox,
-            })
-            New("UIStroke", {
-                Color = "OutlineColor",
-                Parent = Checkbox,
+                Parent = Holder,
             })
 
-            local CheckImage = New("ImageLabel", {
-                Image = CheckIcon and CheckIcon.Url or "",
-                ImageColor3 = "FontColor",
-                ImageRectOffset = CheckIcon and CheckIcon.ImageRectOffset or Vector2.zero,
-                ImageRectSize = CheckIcon and CheckIcon.ImageRectSize or Vector2.zero,
-                ImageTransparency = 1,
-                Position = UDim2.fromOffset(2, 2),
-                Size = UDim2.new(1, -4, 1, -4),
-                Parent = Checkbox,
+            New("UIPadding", {
+                PaddingLeft = UDim.new(0, 6),
+                PaddingRight = UDim.new(0, 6),
+                Parent = Holder,
+            })
+
+            local LeftLabel = New("TextLabel", {
+                BackgroundTransparency = 1,
+                Size = UDim2.new(1, -56, 1, 0),
+                Text = "",
+                TextSize = 13,
+                TextTransparency = 0.5,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                Parent = Holder,
+            })
+
+            local ModeLabel = New("TextLabel", {
+                AnchorPoint = Vector2.new(1, 0.5),
+                BackgroundTransparency = 1,
+                Position = UDim2.new(1, 0, 0.5, 0),
+                Size = UDim2.new(0, 50, 1, 0),
+                Text = "",
+                TextSize = 13,
+                TextTransparency = 0.5,
+                TextXAlignment = Enum.TextXAlignment.Right,
+                Parent = Holder,
             })
 
             function KeybindsToggle:Display(State)
-                Label.TextTransparency = State and 0 or 0.5
-                CheckImage.ImageTransparency = State and 0 or 1
+                local Transparency = State and 0 or 0.5
+                LeftLabel.TextTransparency = Transparency
+                ModeLabel.TextTransparency = Transparency
             end
 
             function KeybindsToggle:SetText(Text)
-                Label.Text = Text
+                local Main, Mode = string.match(Text, "^(.-)%s*%((.+)%)$")
+                LeftLabel.Text = Main or Text
+                ModeLabel.Text = Mode or ""
             end
 
             function KeybindsToggle:SetVisibility(Visibility)
@@ -2184,25 +2219,11 @@ do
 
             function KeybindsToggle:SetNormal(Normal)
                 KeybindsToggle.Normal = Normal
-
-                Holder.Active = not Normal
-                Label.Position = Normal and UDim2.fromOffset(0, 0) or UDim2.fromOffset(22, 0)
-                Checkbox.Visible = not Normal
             end
 
-            KeyPicker.DoClick = function(...) end
-            Holder.MouseButton1Click:Connect(function()
-                if KeybindsToggle.Normal then
-                    return
-                end
-
-                KeyPicker.Toggled = not KeyPicker.Toggled
-                KeyPicker:DoClick()
-            end)
-
             KeybindsToggle.Holder = Holder
-            KeybindsToggle.Label = Label
-            KeybindsToggle.Checkbox = Checkbox
+            KeybindsToggle.LeftLabel = LeftLabel
+            KeybindsToggle.ModeLabel = ModeLabel
             KeybindsToggle.Loaded = true
             table.insert(Library.KeybindToggles, KeybindsToggle)
         end
@@ -2285,19 +2306,12 @@ do
             end
 
             local State = KeyPicker:GetState()
-            local ShowToggle = Library.ShowToggleFrameInKeybinds and KeyPicker.Mode == "Toggle"
 
             if KeyPicker.SyncToggleState and ParentObj.Value ~= State then
                 ParentObj:SetValue(State)
             end
 
             if KeybindsToggle.Loaded then
-                if ShowToggle then
-                    KeybindsToggle:SetNormal(false)
-                else
-                    KeybindsToggle:SetNormal(true)
-                end
-
                 KeybindsToggle:SetText(("[%s] %s (%s)"):format(KeyPicker.DisplayValue, KeyPicker.Text, KeyPicker.Mode))
                 KeybindsToggle:SetVisibility(true)
                 KeybindsToggle:Display(State)
@@ -2395,7 +2409,7 @@ do
         end
 
         function KeyPicker:SetText(Text)
-            KeybindsToggle:SetText(Text)
+            KeyPicker.Text = Text
             KeyPicker:Update()
         end
 
