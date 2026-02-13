@@ -2615,6 +2615,10 @@ do
             Text = "",
             Parent = ToggleLabel,
         })
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 4),
+            Parent = Holder,
+        })
 
         local HolderTransparency = New("ImageLabel", {
             Image = CustomImageManager.GetAsset("TransparencyTexture"),
@@ -3947,6 +3951,10 @@ do
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = Holder,
         })
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 4),
+            Parent = Box,
+        })
 
         New("UIPadding", {
             PaddingBottom = UDim.new(0, 3),
@@ -4111,6 +4119,10 @@ do
             Text = "",
             Parent = Holder,
         })
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 4),
+            Parent = Bar,
+        })
 
         local DisplayLabel = New("TextLabel", {
             BackgroundTransparency = 1,
@@ -4131,6 +4143,10 @@ do
             BackgroundColor3 = "AccentColor",
             Size = UDim2.fromScale(0.5, 1),
             Parent = Bar,
+        })
+        New("UICorner", {
+            CornerRadius = UDim.new(0, 4),
+            Parent = Fill,
         })
 
         function Slider:UpdateColors()
@@ -6993,6 +7009,10 @@ local FooterLabel = New("TextLabel", {
                 Size = UDim2.new(1, 0, 0, 40),
                 Text = "",
                 Parent = Tabs,
+            })
+            New("UICorner", {
+                CornerRadius = UDim.new(0, Library.CornerRadius),
+                Parent = TabButton,
             })
             local ButtonPadding = New("UIPadding", {
                 PaddingBottom = UDim.new(0, IsCompact and 6 or 11),
