@@ -1590,7 +1590,7 @@ function Library:AddDraggableMenu(Name: string)
     })
 
     local HeaderIcon
-    local KeyIconData = KeyIcon or Library:GetIcon("key")
+    local KeyIconData = KeyIcon or Library:GetIcon("keyboard")
     if KeyIconData then
         HeaderIcon = New("ImageLabel", {
             BackgroundTransparency = 1,
@@ -1964,7 +1964,7 @@ end
 local CheckIcon = Library:GetIcon("check")
 local ArrowIcon = Library:GetIcon("chevron-up")
 local ResizeIcon = Library:GetIcon("move-diagonal-2")
-local KeyIcon = Library:GetIcon("key")
+local KeyIcon = Library:GetIcon("keyboard")
 local MoveIcon = Library:GetIcon("move")
 
 function Library:SetIconModule(module: IconModule)
@@ -1973,7 +1973,7 @@ function Library:SetIconModule(module: IconModule)
     CheckIcon = Library:GetIcon("check")
     ArrowIcon = Library:GetIcon("chevron-up")
     ResizeIcon = Library:GetIcon("move-diagonal-2")
-    KeyIcon = Library:GetIcon("key")
+    KeyIcon = Library:GetIcon("keyboard")
     MoveIcon = Library:GetIcon("move")
 end
 
