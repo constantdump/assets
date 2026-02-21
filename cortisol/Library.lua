@@ -6153,6 +6153,7 @@ local FooterLabel = New("TextLabel", {
         Tabs = New("ScrollingFrame", {
             AutomaticCanvasSize = Enum.AutomaticSize.None,
             BackgroundColor3 = "BackgroundColor",
+            BackgroundTransparency = 1,
             CanvasSize = UDim2.fromScale(0, 0),
             Position = UDim2.new(0.5, -160, 1, -40),
             ScrollBarThickness = 0,
