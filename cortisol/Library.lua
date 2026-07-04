@@ -188,6 +188,9 @@ local Library = {
     CantDragForced = false,
 
     Signals = {},
+    Dialogues = {},
+    ActiveLoading = nil,
+    ActiveDialog = nil,
     UnloadSignals = {},
 
     OriginalMinSize = Vector2.new(420, 480),
@@ -294,7 +297,13 @@ local Templates = {
         ToggleKeybind = Enum.KeyCode.RightControl,
         MobileButtonsSide = "Left",
         UnlockMouseWhileOpen = true,
-
+        Dialog = {
+        Title = "Dialog",
+        Description = "Description",
+        AutoDismiss = true,
+        OutsideClickDismiss = true,
+        FooterButtons = {}
+        },
         EnableSidebarResize = false,
         EnableCompacting = true,
         DisableCompactingSnap = false,
@@ -1866,6 +1875,7 @@ function Library:AddTooltip(InfoStr: string, DisabledInfoStr: string, HoverInsta
     local function DoHover()
         if
             CurrentHoverInstance == HoverInstance
+            or Library.ActiveDialog
             or (CurrentMenu and Library:MouseIsOverFrame(CurrentMenu.Menu, Mouse))
             or (TooltipTable.Disabled and typeof(DisabledInfoStr) ~= "string")
             or (not TooltipTable.Disabled and typeof(InfoStr) ~= "string")
@@ -1880,6 +1890,7 @@ function Library:AddTooltip(InfoStr: string, DisabledInfoStr: string, HoverInsta
         while
             Library.Toggled
             and Library:MouseIsOverFrame(HoverInstance, Mouse)
+            and not Library.ActiveDialog
             and not (CurrentMenu and Library:MouseIsOverFrame(CurrentMenu.Menu, Mouse))
         do
             TooltipLabel.Position = UDim2.fromOffset(
@@ -7927,6 +7938,8 @@ Library:GiveSignal(Players.PlayerRemoving:Connect(OnPlayerChange))
 
 Library:GiveSignal(Teams.ChildAdded:Connect(OnTeamChange))
 Library:GiveSignal(Teams.ChildRemoved:Connect(OnTeamChange))
+
+table.clear(Library.Dialogues)
 
 getgenv().Library = Library
 return Library
